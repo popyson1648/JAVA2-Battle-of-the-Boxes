@@ -5,7 +5,6 @@ import java.util.Random;
  */
 public class GameInitializer {
 
-  int numOfHero;
   int numOfVillain;
   Random random;
   HeroFactory heroFactory;
@@ -25,8 +24,8 @@ public class GameInitializer {
    *   <li>決定された生成数に従い、ヒーロー、ヴィランの生成</li>
    * </ul>
    */
-  public void initialingGame() {
-    numOfHero = determineNumOfActor(GameParameters.MIN_HEROES.getParamVal(),
+  public void initializingGame() {
+    int numOfHero = determineNumOfActor(GameParameters.MIN_HEROES.getParamVal(),
         GameParameters.MAX_HEROES.getParamVal());
     numOfVillain = determineNumOfActor(GameParameters.MIN_VILLAINS.getParamVal(),
         GameParameters.MAX_VILLAINS.getParamVal());

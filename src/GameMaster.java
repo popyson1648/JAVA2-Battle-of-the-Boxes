@@ -13,8 +13,8 @@ public class GameMaster {
   private final GameInitializer gameInitializer;
   private final GameMessage gameMessage;
   private final Random random;
-  boolean isHeroDead = false;
-  boolean isVillainsDead = false;
+  private boolean isHeroDead = false;
+  private boolean isVillainsDead = false;
 
   public GameMaster() {
     gameInitializer = new GameInitializer();
@@ -32,7 +32,7 @@ public class GameMaster {
    * </ul>
    */
   public void startGame() {
-    gameInitializer.initialingGame();
+    gameInitializer.initializingGame();
     aliveHeroList = new LinkedHashMap<>(gameInitializer.heroFactory.getHeroList());
     aliveVillainList = new LinkedHashMap<>(gameInitializer.villainFactory.getVillainList());
     deadHeroList = new LinkedHashMap<>(gameInitializer.heroFactory.getHeroList().size());
@@ -68,14 +68,14 @@ public class GameMaster {
       // Heroオブジェクトのもつ、技配列から技をランダムに選択
       randVal = random.nextInt(hero.getMovement().length);
       chosenMovementId = heroMovement[randVal];
-      for (var x : HeroesMovements.values()) {
+      for (var x : HeroMovements.values()) {
         if (x.getId() == chosenMovementId) {
           chosenMovementPower = x.getPower();
         }
       }
       damage = chosenMovementPower * roundParam((heroAttack / heroDefence));
       villain.setHp(villainHp - damage);
-      MessageEffectForHeroAttack(heroId, chosenMovementId, damage, villainId);
+      messageEffectForHeroAttack(heroId, chosenMovementId, damage, villainId);
     }
   }
 
@@ -111,9 +111,9 @@ public class GameMaster {
       }
       damage = chosenMovementPower * roundParam((villainAttack / villainDefence));
       hero.setHp(heroHp - damage);
-      MessageEffectForVillainsAttack(x.getID(), chosenMovementId, damage, heroId);
+      messageEffectForVillainsAttack(x.getID(), chosenMovementId, damage, heroId);
     }
-    MessageStatus();
+    messageStatus();
   }
 
   /**
@@ -122,8 +122,8 @@ public class GameMaster {
   public void defence() {
     int heroId = 1; // 現在はヒーローは一人しか想定していないため、実数リテラルを代入。
     aliveHeroList.get(heroId).setIsDefensivePosture(true);
-    MessageDefence(0);
-    MessageStatus();
+    messageDefence(0);
+    messageStatus();
   }
 
   /**
@@ -158,14 +158,14 @@ public class GameMaster {
     }
     heroHp = heroHp + recoveryVal;
     hero.setHp(heroHp);
-    MessageRecover(heroId, recoveryVal);
+    messageRecovery(heroId, recoveryVal);
   }
 
   /**
-   * 一の位を四捨五入したパラメータの値をランダムに決定します。
+   * 一の位をランダムに四捨五入した値を決定します。
    *
-   * @param x
-   * @return
+   * @param x 処理対象の数値
+   * @return 一の位をランダムなに四捨五入した数値
    */
   private int roundParam(int x) {
     int temp;
@@ -228,35 +228,35 @@ public class GameMaster {
   /**
    * タイトルメッセージを実行します
    */
-  public void MessageTitle() {
+  public void messageTitle() {
     gameMessage.title();
   }
 
   /**
    * ゲーム開始のメッセージを実行します
    */
-  public void MessageStart() {
+  public void messageStart() {
     gameMessage.start();
   }
 
   /**
    * ステータスメッセージを実行します
    */
-  public void MessageStatus() {
+  public void messageStatus() {
     gameMessage.status();
   }
 
   /**
    * アクション選択メッセージを実行します
    */
-  public void MessageChoiceAction() {
+  public void messageChoiceAction() {
     gameMessage.choiceAction();
   }
 
   /**
    * ヴィラン選択メッセージを実行します
    */
-  public void MessageChoiceVillain() {
+  public void messageChoiceVillain() {
     gameMessage.choiceVillain();
   }
 
@@ -268,7 +268,7 @@ public class GameMaster {
    * @param damage     ヴィランに与えたダメージ
    * @param villainId  攻撃を行ったヴィランオブジェクトのid
    */
-  public void MessageEffectForHeroAttack(int heroId, int movementId, int damage, int villainId) {
+  public void messageEffectForHeroAttack(int heroId, int movementId, int damage, int villainId) {
     gameMessage.effectForHeroAttack(heroId, movementId, damage, villainId);
   }
 
@@ -280,7 +280,7 @@ public class GameMaster {
    * @param damage     ヒーローに与えたダメージ
    * @param heroId     攻撃を行ったヒーロオブジェクトのid
    */
-  public void MessageEffectForVillainsAttack(int villainsId, int movementId, int damage,
+  public void messageEffectForVillainsAttack(int villainsId, int movementId, int damage,
       int heroId) {
     gameMessage.effectForVillainsAttack(villainsId, movementId, damage, heroId);
   }
@@ -294,7 +294,7 @@ public class GameMaster {
    *                                           <li>1: ディフェンス実行後ディフェンスメッセージ</li>
    *                      </ul>
    */
-  public void MessageDefence(int defenceStatus) {
+  public void messageDefence(int defenceStatus) {
     int heroId = 1; // 現在はヒーローは一人しか想定していないため、実数リテラルを代入。
     if (defenceStatus == 0) {
       gameMessage.defence(heroId);
@@ -309,19 +309,19 @@ public class GameMaster {
    * @param heroId 回復を実行したヒーロオブジェクトのid
    * @param val    回復値
    */
-  public void MessageRecover(int heroId, int val) {
+  public void messageRecovery(int heroId, int val) {
     gameMessage.recovery(heroId, val);
   }
 
   /**
    * エラーメッセージを実行します
    */
-  public void MessageError() {
+  public void messageError() {
     gameMessage.error();
   }
 
   // ゲームオーバメッセージを実行します
-  public void MessageGameOver() {
+  public void messageGameOver() {
     if (this.isHeroDead) {
       gameMessage.gameOver(0);
     }

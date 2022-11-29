@@ -12,21 +12,21 @@ public class R2A116 {
     int action;
     int villainNum;
 
-    gameMaster.MessageTitle();
+    gameMaster.messageTitle();
     gameMaster.startGame();
-    gameMaster.MessageStart();
-    gameMaster.MessageStatus();
+    gameMaster.messageStart();
+    gameMaster.messageStatus();
 
     while (true) {
       Scanner sc = new Scanner(System.in);
-      gameMaster.MessageChoiceAction();
+      gameMaster.messageChoiceAction();
       try {
         action = sc.nextInt();
         if (action < 1 || 3 < action) {
           throw new IllegalArgumentException();
         }
       } catch (RuntimeException e) {
-        gameMaster.MessageError();
+        gameMaster.messageError();
         sc.reset();
         continue;
       }
@@ -35,7 +35,7 @@ public class R2A116 {
         // attack
         case 1:
           while (true) {
-            gameMaster.MessageChoiceVillain();
+            gameMaster.messageChoiceVillain();
             try {
               int[] villainsId = new int[GameMaster.aliveVillainList.size()];
               int idx = 0;
@@ -60,7 +60,7 @@ public class R2A116 {
                 throw new IllegalArgumentException();
               }
             } catch (RuntimeException e) {
-              gameMaster.MessageError();
+              gameMaster.messageError();
               sc.reset();
             }
           }
@@ -76,12 +76,12 @@ public class R2A116 {
         gameMaster.organizeDeceased();
         gameMaster.villainsAttack();
       } else {
-        gameMaster.MessageDefence(1);
+        gameMaster.messageDefence(1);
         gameMaster.unlockDefence();
       }
       gameMaster.organizeDeceased();
       if (gameMaster.isGameOver()) {
-        gameMaster.MessageGameOver();
+        gameMaster.messageGameOver();
         break;
       }
     }

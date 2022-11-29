@@ -3,12 +3,6 @@
  */
 public abstract class Actor {
 
-  public Integer id;
-  public String name;
-  public int hp;
-  public int attack;
-  public int defence;
-  public int[] movements;
 
   public abstract Integer getID();
 

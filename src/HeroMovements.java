@@ -1,7 +1,7 @@
 /**
  * ヒーローが使用できる技の列挙型クラスです
  */
-public enum HeroesMovements {
+public enum HeroMovements {
   SLASH(1, "きりさく", 500),
   COSMIC_POWER(2, "コスモパワー", 500),
   SACRE_SWORD(3, "せいなるつるぎ", 500);
@@ -10,7 +10,7 @@ public enum HeroesMovements {
   private final String movementName;
   private final int power;
 
-  HeroesMovements(int id, String movementName, int power) {
+  HeroMovements(int id, String movementName, int power) {
     this.id = id;
     this.movementName = movementName;
     this.power = power;

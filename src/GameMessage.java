@@ -72,7 +72,7 @@ public class GameMessage {
     String villainName = GameMaster.aliveVillainList.get(villainId).getName();
     String heroName = GameMaster.aliveHeroList.get(heroId).getName();
     String movementName = null;
-    for (var x : HeroesMovements.values()) {
+    for (var x : HeroMovements.values()) {
       if (x.getId() == movementId) {
         movementName = x.getMovementName();
       }
